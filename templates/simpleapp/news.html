@@ -1,0 +1,45 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+{% load custom_tags %}
+<!-- Название у нас будет News -->
+{% block title %}
+News
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все новости -->
+{% block content %}
+<h1>Все новости</h1>
+<h3>{% current_time '%d %b %Y' %}</h3>
+<hr>
+<h3> {{ next_upgrade|default_if_none:"Обновления каждый день!" }} </h3>
+<hr>
+{% if news %}
+<h6> Количество новостей на портале: {{ news|length }} </h6>
+        <table> <!-- Начинаем описывать таблицу -->
+           <tr>
+               <td>Название</td>
+               <td>Дата создания</td>
+               <td>Описание</td>
+               <td>Автор</td>
+               <td>Категория</td>
+           </tr>
+            {% for news in news %}
+           <tr>
+               <!-- Не забываем, что переменные в шаблоне ничем не отличаются
+                от переменных в Python. Здесь также можно получать доступ к
+                полям объекта модели. Например, здесь мы выводим имя,
+                в следующем столбце описание, и т.д.  -->
+               <td>{{ news.name|censor|truncatechars:20 }}</td>
+               <td>{{ news.dateCreation|date:'d M Y' }}</td>
+               <td>{{ news.description|censor|truncatewords:20 }}</td>
+               <td>{{ news.author }}</td>
+               <td>{{ news.category }}</td>
+               </tr>
+           {% endfor %}
+       </table> <!-- ... и таблицы -->
+   {% else %}
+       <!-- Если товаров нет, говорим, что товаров нет ;) -->
+       <h2>Новостей нет!</h2>
+   {% endif %}
+{% endblock content %}
