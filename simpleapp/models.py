@@ -18,6 +18,10 @@ class News(models.Model):
     def __str__(self):
         return f'{self.name.title()}: {self.description[:20]}'
 
+    class Meta:
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
+
 
 # Категория, к которой будет привязываться товар
 class Category(models.Model):
@@ -26,3 +30,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name.title()
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
